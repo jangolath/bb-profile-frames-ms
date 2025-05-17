@@ -38,19 +38,26 @@ class BB_Profile_Frames_MS_Admin {
     }
 
     /**
-     * Add menu item under BuddyBoss > Profile Frames.
+     * Add menu item to the network admin menu.
      */
     public function add_admin_menu() {
-        if (is_multisite() && is_main_site() && current_user_can('manage_network')) {
+        // Add to network admin menu
+        add_action('network_admin_menu', function() {
             add_submenu_page(
-                'buddyboss-platform',
+                'settings.php', // Parent slug for network admin
                 __('Lottie Profile Frames', 'bb-profile-frames-ms'),
                 __('Lottie Profile Frames', 'bb-profile-frames-ms'),
-                'manage_options',
+                'manage_network_options', // Network admin capability
                 'bb-profile-frames-ms',
                 array($this, 'render_admin_page')
             );
-        }
+        });
+        
+        // Remove from individual site menu (optional - remove these lines if you want it in both places)
+        remove_submenu_page(
+            'buddyboss-platform',
+            'bb-profile-frames-ms'
+        );
     }
 
     /**
@@ -100,8 +107,8 @@ class BB_Profile_Frames_MS_Admin {
      * Render admin page.
      */
     public function render_admin_page() {
-        if (!current_user_can('manage_options')) {
-            return;
+        if (!current_user_can('manage_network_options')) {
+            wp_die(__('Sorry, you are not allowed to access this page.', 'bb-profile-frames-ms'));
         }
         
         // Include admin page template
@@ -113,7 +120,7 @@ class BB_Profile_Frames_MS_Admin {
      */
     public function ajax_upload_frame() {
         // Check permissions
-        if (!current_user_can('manage_options') || !is_multisite() || !is_main_site()) {
+        if (!current_user_can('manage_network_options')) {
             wp_send_json_error(__('Permission denied.', 'bb-profile-frames-ms'));
         }
         
@@ -181,7 +188,7 @@ class BB_Profile_Frames_MS_Admin {
      */
     public function ajax_delete_frame() {
         // Check permissions
-        if (!current_user_can('manage_options') || !is_multisite() || !is_main_site()) {
+        if (!current_user_can('manage_network_options')) {
             wp_send_json_error(__('Permission denied.', 'bb-profile-frames-ms'));
         }
         

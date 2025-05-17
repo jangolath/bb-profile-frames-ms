@@ -3,7 +3,7 @@
  * Plugin Name: BuddyBoss Profile Frames MS
  * Plugin URI: https://bluespringsweb.com/bb-profile-frames-ms
  * Description: Add Lottie animation frames to user profiles in BuddyBoss multisite.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Jason Wood
  * Author URI: https://bluespringsweb.com
  * License: GPL-2.0+
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('BBPFMS_VERSION', '1.0.0');
+define('BBPFMS_VERSION', '1.0.1');
 define('BBPFMS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('BBPFMS_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('BBPFMS_PLUGIN_BASENAME', plugin_basename(__FILE__));
