@@ -26,8 +26,8 @@ class BB_Profile_Frames_MS_Admin {
      * Register all admin hooks.
      */
     private function register_hooks() {
-        // Admin menu
-        add_action('admin_menu', array($this, 'add_admin_menu'));
+        // Add to network admin menu
+        add_action('network_admin_menu', array($this, 'add_network_admin_menu'));
         
         // Admin scripts and styles
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -38,25 +38,16 @@ class BB_Profile_Frames_MS_Admin {
     }
 
     /**
-     * Add menu item to the network admin menu.
+     * Add menu item to the network admin settings menu.
      */
-    public function add_admin_menu() {
-        // Add to network admin menu
-        add_action('network_admin_menu', function() {
-            add_submenu_page(
-                'settings.php', // Parent slug for network admin
-                __('Lottie Profile Frames', 'bb-profile-frames-ms'),
-                __('Lottie Profile Frames', 'bb-profile-frames-ms'),
-                'manage_network_options', // Network admin capability
-                'bb-profile-frames-ms',
-                array($this, 'render_admin_page')
-            );
-        });
-        
-        // Remove from individual site menu (optional - remove these lines if you want it in both places)
-        remove_submenu_page(
-            'buddyboss-platform',
-            'bb-profile-frames-ms'
+    public function add_network_admin_menu() {
+        add_submenu_page(
+            'settings.php',  // Parent slug for network settings
+            __('Lottie Profile Frames', 'bb-profile-frames-ms'),
+            __('Lottie Profile Frames', 'bb-profile-frames-ms'),
+            'manage_network_options',  // Network admin capability
+            'bb-profile-frames-ms',
+            array($this, 'render_admin_page')
         );
     }
 
