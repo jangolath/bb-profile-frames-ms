@@ -38,14 +38,35 @@ class BB_Profile_Frames_MS_Admin {
     }
 
     /**
-     * Add menu item to the network admin settings menu.
+     * Add menu items to the network admin menu.
      */
     public function add_network_admin_menu() {
+        // Add parent menu if it doesn't exist
+        if (!menu_page_url('buddyboss-advanced-enhancements', false)) {
+            add_menu_page(
+                __('BuddyBoss Advanced Enhancements', 'bb-profile-frames-ms'),
+                __('BB Advanced', 'bb-profile-frames-ms'),
+                'manage_network_options',
+                'buddyboss-advanced-enhancements',
+                function() {
+                    // This is the default page when clicking the main menu
+                    // You could display an overview/dashboard of all your enhancements here
+                    echo '<div class="wrap">';
+                    echo '<h1>' . __('BuddyBoss Advanced Enhancements', 'bb-profile-frames-ms') . '</h1>';
+                    echo '<p>' . __('Welcome to BuddyBoss Advanced Enhancements. Use the submenu to access specific features.', 'bb-profile-frames-ms') . '</p>';
+                    echo '</div>';
+                },
+                'dashicons-buddicons-buddypress-logo', // BuddyPress icon
+                3 // Position in menu
+            );
+        }
+        
+        // Add this plugin as a submenu
         add_submenu_page(
-            'settings.php',  // Parent slug for network settings
+            'buddyboss-advanced-enhancements', // Parent slug
             __('Lottie Profile Frames', 'bb-profile-frames-ms'),
-            __('Lottie Profile Frames', 'bb-profile-frames-ms'),
-            'manage_network_options',  // Network admin capability
+            __('Profile Frames', 'bb-profile-frames-ms'),
+            'manage_network_options',
             'bb-profile-frames-ms',
             array($this, 'render_admin_page')
         );
@@ -55,7 +76,8 @@ class BB_Profile_Frames_MS_Admin {
      * Enqueue admin scripts and styles.
      */
     public function enqueue_scripts($hook) {
-        if ($hook != 'buddyboss-platform_page_bb-profile-frames-ms') {
+        // Check if we're on our plugin's page
+        if ($hook != 'buddyboss-advanced-enhancements_page_bb-profile-frames-ms') {
             return;
         }
         
